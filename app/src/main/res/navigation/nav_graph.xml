@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="hu.nje.recipefinder.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_to_list"
+            app:destination="@id/recipeListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recipeListFragment"
+        android:name="hu.nje.recipefinder.ui.recipelist.RecipeListFragment"
+        tools:layout="@layout/fragment_recipe_list">
+
+        <action
+            android:id="@+id/action_list_to_details"
+            app:destination="@id/recipeDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="hu.nje.recipefinder.ui.recipedetails.RecipeDetailsFragment"
+        tools:layout="@layout/fragment_recipe_details" />
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="hu.nje.recipefinder.ui.favorites.FavoritesFragment"
+        tools:layout="@layout/fragment_favorites" />
+
+    <fragment
+        android:id="@+id/shoppingListFragment"
+        android:name="hu.nje.recipefinder.ui.shoppinglist.ShoppingListFragment"
+        tools:layout="@layout/fragment_shopping_list" />
+</navigation>
