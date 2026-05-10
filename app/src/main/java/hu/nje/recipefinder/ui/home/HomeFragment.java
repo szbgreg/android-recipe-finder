@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import hu.nje.recipefinder.R;
+import hu.nje.recipefinder.data.mapper.CategoryMapper;
 import hu.nje.recipefinder.data.mapper.MealMapper;
 import hu.nje.recipefinder.data.remote.MealApiService;
 import hu.nje.recipefinder.data.remote.dtos.CategoryDto;
 import hu.nje.recipefinder.data.remote.dtos.CategoryListResponse;
 import hu.nje.recipefinder.data.remote.dtos.MealDto;
 import hu.nje.recipefinder.data.remote.dtos.MealListResponse;
+import hu.nje.recipefinder.domain.Category;
 import hu.nje.recipefinder.domain.Recipe;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +53,24 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<MealListResponse> call, Throwable e) {
+                Log.d("TEST", "Fail: " + e.getMessage());
+            }
+        });
+
+        apiService.getCategories(new Callback<CategoryListResponse>() {
+            @Override
+            public void onResponse(Call<CategoryListResponse> call, Response<CategoryListResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<CategoryDto> dtoList = response.body().getCategories();
+                    List<Category> categories = CategoryMapper.toDomainList(dtoList);
+
+                    Log.d("TEST Categories size", "Results: " + categories.size());
+                    Log.d("TEST Category name", "First : " + categories.get(0).getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoryListResponse> call, Throwable e) {
                 Log.d("TEST", "Fail: " + e.getMessage());
             }
         });
