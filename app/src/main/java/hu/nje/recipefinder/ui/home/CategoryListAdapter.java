@@ -11,16 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hu.nje.recipefinder.R;
 import hu.nje.recipefinder.domain.Category;
 
-public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryHolder>{
+public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryHolder> {
 
-    private List<Category> categories;
+    private List<Category> categories = new ArrayList<>();
 
-    public CategoryListAdapter(List<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
