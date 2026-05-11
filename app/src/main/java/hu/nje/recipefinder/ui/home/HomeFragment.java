@@ -3,6 +3,8 @@ package hu.nje.recipefinder.ui.home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,28 +37,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        apiService.searchByName("chicken", new Callback<MealListResponse>() {
-            @Override
-            public void onResponse(Call<MealListResponse> call, Response<MealListResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<MealDto> meals = response.body().getMeals();
-                    List<Recipe> recipes = MealMapper.toDomainList(meals);
-
-                    Log.d("TEST Meal size", "Results: " + recipes.size());
-                    Log.d("TEST Meal name", "First meal: " + recipes.get(0).getName());
-                    Log.d("TEST Meal ingredient",
-                            "First ingredient: " + recipes.get(0).getIngredients().get(0).getName() +
-                            " Measure: " + recipes.get(0).getIngredients().get(0).getMeasure()
-                    );
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealListResponse> call, Throwable e) {
-                Log.d("TEST", "Fail: " + e.getMessage());
-            }
-        });
-
         apiService.getCategories(new Callback<CategoryListResponse>() {
             @Override
             public void onResponse(Call<CategoryListResponse> call, Response<CategoryListResponse> response) {
@@ -64,14 +44,18 @@ public class HomeFragment extends Fragment {
                     List<CategoryDto> dtoList = response.body().getCategories();
                     List<Category> categories = CategoryMapper.toDomainList(dtoList);
 
-                    Log.d("TEST Categories size", "Results: " + categories.size());
-                    Log.d("TEST Category name", "First : " + categories.get(0).getName());
+                    RecyclerView recyclerView = view.findViewById(R.id.categoriesRecyclerView);
+
+                    CategoryListAdapter adapter = new CategoryListAdapter(categories);
+                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
                 }
             }
 
             @Override
             public void onFailure(Call<CategoryListResponse> call, Throwable e) {
-                Log.d("TEST", "Fail: " + e.getMessage());
+                Log.d("API_GET_CATEGORIES", "Fail: " + e.getMessage());
             }
         });
 
