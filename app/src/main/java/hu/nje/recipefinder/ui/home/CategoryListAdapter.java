@@ -1,5 +1,6 @@
 package hu.nje.recipefinder.ui.home;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +23,11 @@ import hu.nje.recipefinder.domain.Category;
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryHolder> {
 
     private List<Category> categories = new ArrayList<>();
+    private NavController navController;
+
+    public CategoryListAdapter(NavController navController) {
+        this.navController = navController;
+    }
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
@@ -40,6 +48,14 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         Glide.with(holder.itemView.getContext())
                 .load(category.getImageUrl())
                 .into(holder.categoryImageView);
+
+        holder.categoryImageView.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("query", "adf");
+            args.putString("type", "category");
+
+            navController.navigate(R.id.action_home_to_list, args);
+        });
     }
 
     @Override
