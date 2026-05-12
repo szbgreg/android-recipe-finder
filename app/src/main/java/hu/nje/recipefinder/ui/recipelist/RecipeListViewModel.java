@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hu.nje.recipefinder.data.mapper.MealMapper;
@@ -46,6 +47,8 @@ public class RecipeListViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Recipe> result = mapper.toDomainList(response.body().getMeals());
                     recipes.setValue(result);
+                } else {
+                    recipes.setValue(new ArrayList<>());
                 }
             }
 

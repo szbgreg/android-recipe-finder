@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import hu.nje.recipefinder.R;
 import hu.nje.recipefinder.ui.home.CategoryListAdapter;
@@ -24,6 +25,8 @@ public class RecipeListFragment extends Fragment {
     private String query;
     private RecipeListViewModel viewModel;
     private RecipeListAdapter adapter;
+    private TextView emptyTextView;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +44,8 @@ public class RecipeListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
-
+        emptyTextView = view.findViewById(R.id.emptyTextView);
+        recyclerView = view.findViewById(R.id.recipesRecyclerView);
         return view;
     }
 
@@ -54,6 +58,8 @@ public class RecipeListFragment extends Fragment {
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
             adapter.setRecipes(recipes);
             adapter.notifyDataSetChanged();
+            emptyTextView.setVisibility(recipes.isEmpty() ? View.VISIBLE : View.GONE);
+            recyclerView.setVisibility(recipes.isEmpty() ? View.GONE : View.VISIBLE);
         });
 
         if (type.equals("category")) {
@@ -64,7 +70,7 @@ public class RecipeListFragment extends Fragment {
     }
 
     private void initRecyclerView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.recipesRecyclerView);
+
         adapter = new RecipeListAdapter();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
