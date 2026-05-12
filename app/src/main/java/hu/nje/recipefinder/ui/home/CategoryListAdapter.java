@@ -51,7 +51,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
         holder.categoryImageView.setOnClickListener(v -> {
             Bundle args = new Bundle();
-            args.putString("query", "adf");
+            args.putString("query", category.getName());
             args.putString("type", "category");
 
             navController.navigate(R.id.action_home_to_list, args);
