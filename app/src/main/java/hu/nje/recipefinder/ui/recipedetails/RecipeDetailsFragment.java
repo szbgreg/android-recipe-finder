@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import hu.nje.recipefinder.R;
-import hu.nje.recipefinder.domain.Recipe;
 
 public class RecipeDetailsFragment extends Fragment {
 
@@ -31,6 +32,7 @@ public class RecipeDetailsFragment extends Fragment {
     private TextView instructionsTextView;
     private ProgressBar loadingProgressBar;
     private NestedScrollView nestedScrollView;
+    private IngredientListAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +66,8 @@ public class RecipeDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initRecyclerView(view);
+
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
                     loadingProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
                     nestedScrollView.setVisibility(isLoading ? View.GONE : View.VISIBLE);
@@ -76,6 +80,7 @@ public class RecipeDetailsFragment extends Fragment {
             categoryTextView.setText(recipe.getCategory());
             areaTextView.setText(recipe.getArea());
             instructionsTextView.setText(recipe.getInstructions());
+            adapter.setIngredients(recipe.getIngredients());
 
             Glide.with(this)
                     .load(recipe.getImageUrl())
@@ -85,5 +90,13 @@ public class RecipeDetailsFragment extends Fragment {
         if (mealId != null) {
             viewModel.loadRecipe(mealId);
         }
+    }
+
+    private void initRecyclerView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.ingredientsRecyclerView);
+        adapter = new IngredientListAdapter();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 }
