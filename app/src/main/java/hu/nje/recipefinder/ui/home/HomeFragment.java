@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import hu.nje.recipefinder.R;
+import hu.nje.recipefinder.data.local.database.AppDatabase;
+import hu.nje.recipefinder.data.local.entity.SearchHistoryEntity;
 
 
 public class HomeFragment extends Fragment {
@@ -64,6 +66,20 @@ public class HomeFragment extends Fragment {
             String query = searchEditText.getText().toString().trim();
 
             if (query.isEmpty()) return;
+
+            SearchHistoryEntity historyItem =
+                    new SearchHistoryEntity(
+                            query,
+                            System.currentTimeMillis()
+                    );
+
+            AppDatabase.getInstance(requireContext())
+                    .searchHistoryDao()
+                    .insert(historyItem);
+
+            AppDatabase.getInstance(requireContext())
+                    .searchHistoryDao()
+                    .deleteOldSearches();
 
             Bundle args = new Bundle();
             args.putString("query", query);

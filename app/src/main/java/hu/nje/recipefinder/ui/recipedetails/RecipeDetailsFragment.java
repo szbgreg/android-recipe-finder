@@ -10,6 +10,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.widget.ImageButton;
+import android.widget.Toast;
+import android.widget.Button;
+
+import hu.nje.recipefinder.data.local.database.AppDatabase;
+import hu.nje.recipefinder.data.local.entity.FavoriteRecipeEntity;
+import hu.nje.recipefinder.data.local.entity.ShoppingListItemEntity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +41,12 @@ public class RecipeDetailsFragment extends Fragment {
     private ProgressBar loadingProgressBar;
     private NestedScrollView nestedScrollView;
     private IngredientListAdapter adapter;
+    private ImageButton btnFavorite;
+    private Button increaseButton;
+    private Button decreaseButton;
+    private TextView servingsCountTextView;
+    private int servingsCount = 2;
+    private Button addToShoppingListButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +72,11 @@ public class RecipeDetailsFragment extends Fragment {
         instructionsTextView = view.findViewById(R.id.instructionsTextView);
         detailImageView = view.findViewById(R.id.detailImageView);
         nestedScrollView = view.findViewById(R.id.nestedScrollView);
+        btnFavorite = view.findViewById(R.id.btnFavorite);
+        increaseButton = view.findViewById(R.id.increaseButton);
+        decreaseButton = view.findViewById(R.id.decreaseButton);
+        servingsCountTextView = view.findViewById(R.id.servingsCountTextView);
+        addToShoppingListButton = view.findViewById(R.id.addToShoppingListButton);
 
         return view;
     }
@@ -67,6 +86,20 @@ public class RecipeDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initRecyclerView(view);
+
+        servingsCountTextView.setText(String.valueOf(servingsCount));
+
+        increaseButton.setOnClickListener(v -> {
+            servingsCount++;
+            servingsCountTextView.setText(String.valueOf(servingsCount));
+        });
+
+        decreaseButton.setOnClickListener(v -> {
+            if (servingsCount > 1) {
+                servingsCount--;
+                servingsCountTextView.setText(String.valueOf(servingsCount));
+            }
+        });
 
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
                     loadingProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
@@ -85,6 +118,42 @@ public class RecipeDetailsFragment extends Fragment {
             Glide.with(this)
                     .load(recipe.getImageUrl())
                     .into(detailImageView);
+
+            btnFavorite.setOnClickListener(v -> {
+                FavoriteRecipeEntity favorite = new FavoriteRecipeEntity(
+                        recipe.getId(),
+                        recipe.getName(),
+                        recipe.getImageUrl(),
+                        recipe.getCategory()
+                );
+
+                AppDatabase.getInstance(requireContext())
+                        .favoriteRecipeDao()
+                        .insert(favorite);
+
+                Toast.makeText(requireContext(),
+                        "Kedvencekhez adva",
+                        Toast.LENGTH_SHORT).show();
+            });
+
+            addToShoppingListButton.setOnClickListener(v -> {
+                for (int i = 0; i < recipe.getIngredients().size(); i++) {
+                    ShoppingListItemEntity item = new ShoppingListItemEntity(
+                            recipe.getName(),
+                            recipe.getIngredients().get(i).getName(),
+                            recipe.getIngredients().get(i).getMeasure(),
+                            servingsCount
+                    );
+
+                    AppDatabase.getInstance(requireContext())
+                            .shoppingListDao()
+                            .insert(item);
+                }
+
+                Toast.makeText(requireContext(),
+                        "Bevásárló listához adva",
+                        Toast.LENGTH_SHORT).show();
+            });
         });
 
         if (mealId != null) {

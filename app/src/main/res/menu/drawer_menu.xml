@@ -11,4 +11,9 @@
     <item
         android:id="@+id/shoppingListFragment"
         android:title="Shopping list" />
+
+    <item
+        android:id="@+id/historyFragment"
+        android:title="History" />
+
 </menu>

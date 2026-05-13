@@ -1,4 +1,4 @@
-package hu.nje.recipefinder.ui.favorites;
+package hu.nje.recipefinder.ui.history;
 
 import android.os.Bundle;
 
@@ -16,37 +16,38 @@ import java.util.List;
 
 import hu.nje.recipefinder.R;
 import hu.nje.recipefinder.data.local.database.AppDatabase;
-import hu.nje.recipefinder.data.local.entity.FavoriteRecipeEntity;
+import hu.nje.recipefinder.data.local.entity.SearchHistoryEntity;
 
-public class FavoritesFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
-    private FavoritesAdapter adapter;
+    private HistoryAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
+        View view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.favoritesRecyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new FavoritesAdapter(recipe -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("mealId", recipe.idMeal);
+        adapter = new HistoryAdapter(item -> {
+            Bundle args = new Bundle();
+            args.putString("query", item.searchText);
+            args.putString("type", "search");
 
             NavController navController = Navigation.findNavController(view);
-            navController.navigate(R.id.recipeDetailsFragment, bundle);
+            navController.navigate(R.id.action_history_to_list, args);
         });
 
         recyclerView.setAdapter(adapter);
 
-        List<FavoriteRecipeEntity> favorites =
+        List<SearchHistoryEntity> historyItems =
                 AppDatabase.getInstance(requireContext())
-                        .favoriteRecipeDao()
-                        .getAllFavorites();
+                        .searchHistoryDao()
+                        .getLast10Searches();
 
-        adapter.setFavorites(favorites);
+        adapter.setItems(historyItems);
 
         return view;
     }
