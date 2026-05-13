@@ -1,5 +1,6 @@
 package hu.nje.recipefinder.ui.recipelist;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +22,11 @@ import hu.nje.recipefinder.domain.Recipe;
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeHolder> {
 
     private List<Recipe> recipes = new ArrayList<>();
+    private NavController navController;
+
+    public RecipeListAdapter(NavController navController) {
+        this.navController = navController;
+    }
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
@@ -40,6 +47,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         Glide.with(holder.itemView.getContext())
                 .load(recipe.getImageUrl())
                 .into(holder.recipeImageImageView);
+
+        holder.recipeImageImageView.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("mealId", recipe.getId());
+
+            navController.navigate(R.id.action_list_to_details, args);
+        });
     }
 
     @Override

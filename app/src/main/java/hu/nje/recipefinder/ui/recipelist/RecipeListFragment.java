@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +29,7 @@ public class RecipeListFragment extends Fragment {
     private RecipeListAdapter adapter;
     private TextView emptyTextView;
     private RecyclerView recyclerView;
+    NavController navController;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class RecipeListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
+
         initRecyclerView(view);
 
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
@@ -71,7 +76,7 @@ public class RecipeListFragment extends Fragment {
 
     private void initRecyclerView(View view) {
 
-        adapter = new RecipeListAdapter();
+        adapter = new RecipeListAdapter(navController);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
