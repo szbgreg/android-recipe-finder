@@ -24,7 +24,7 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,13 +33,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background"
-            android:padding="16dp">
+            android:background="@color/background">
 
             <ImageView
                 android:id="@+id/detailImageView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +52,8 @@
                 android:gravity="center"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.472"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +64,9 @@
                 android:id="@+id/categoryTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/detailTextView"
                 tools:text="Category" />
 
@@ -83,36 +86,40 @@
                 android:layout_marginTop="16dp"
                 android:text="Servings"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/instructionsTextView" />
 
             <Button
                 android:id="@+id/increaseButton"
-                android:layout_width="48dp"
+                android:layout_width="60dp"
                 android:layout_height="48dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="+"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/servingsTextView"
+                app:layout_constraintStart_toEndOf="@+id/servingsCountTextView"
                 app:layout_constraintTop_toBottomOf="@+id/servingsTextView" />
 
             <Button
                 android:id="@+id/decreaseButton"
-                android:layout_width="48dp"
+                android:layout_width="60dp"
                 android:layout_height="48dp"
+                android:layout_marginEnd="16dp"
                 android:text="-"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/servingsTextView"
-                app:layout_constraintTop_toBottomOf="@+id/servingsCountTextView" />
+                app:layout_constraintBottom_toBottomOf="@+id/increaseButton"
+                app:layout_constraintEnd_toStartOf="@+id/servingsCountTextView"
+                app:layout_constraintTop_toTopOf="@+id/increaseButton" />
 
             <TextView
                 android:id="@+id/servingsCountTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2"
-                app:layout_constraintEnd_toEndOf="@+id/increaseButton"
-                app:layout_constraintStart_toStartOf="@+id/increaseButton"
-                app:layout_constraintTop_toBottomOf="@+id/increaseButton"
+                app:layout_constraintBottom_toBottomOf="@+id/increaseButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/increaseButton"
                 tools:text="2" />
 
             <TextView
@@ -120,9 +127,10 @@
                 android:layout_width="0dp"
                 android:layout_height="19dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
                 android:gravity="center"
                 android:text="Instructions"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoryTextView" />
@@ -141,10 +149,30 @@
                 android:layout_width="0dp"
                 android:layout_height="404dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/increaseButton"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/instructionsTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/decreaseButton" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category:"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detailTextView" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Area:"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/areaTextView"
+                app:layout_constraintTop_toTopOf="@+id/areaTextView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

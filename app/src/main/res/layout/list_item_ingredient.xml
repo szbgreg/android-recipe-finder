@@ -4,19 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="26dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="26dp">
+    android:paddingTop="8dp">
 
     <TextView
         android:id="@+id/ingredientNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:text="TextView"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/addToCartButton"
         app:layout_constraintEnd_toStartOf="@+id/addToCartButton"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
