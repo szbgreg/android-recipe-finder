@@ -38,9 +38,13 @@
         android:id="@+id/categoriesTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:paddingTop="16dp"
         android:text="Categories"
-        android:textSize="16sp"
+        android:textColor="@color/primary_dark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchButton" />
 
