@@ -14,6 +14,12 @@ import java.util.List;
 import hu.nje.recipefinder.R;
 import hu.nje.recipefinder.domain.Ingredient;
 
+import android.widget.Button;
+import android.widget.Toast;
+
+import hu.nje.recipefinder.data.local.database.AppDatabase;
+import hu.nje.recipefinder.data.local.entity.ShoppingListItemEntity;
+
 public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.IngredientHolder> {
     private List<Ingredient> ingredients = new ArrayList<>();
 
@@ -35,6 +41,25 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
         Ingredient ingredient = ingredients.get(position);
         holder.ingredientNameTextView.setText(ingredient.getName());
         holder.measureTextView.setText(ingredient.getMeasure());
+        holder.addToCartButton.setOnClickListener(v -> {
+
+            ShoppingListItemEntity item = new ShoppingListItemEntity(
+                    "Custom ingredient",
+                    ingredient.getName(),
+                    ingredient.getMeasure(),
+                    1
+            );
+
+            AppDatabase.getInstance(v.getContext())
+                    .shoppingListDao()
+                    .insert(item);
+
+            Toast.makeText(
+                    v.getContext(),
+                    "Hozzávaló hozzáadva a kosárhoz!",
+                    Toast.LENGTH_SHORT
+            ).show();
+        });
     }
 
     @Override
@@ -45,11 +70,13 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     public class IngredientHolder extends RecyclerView.ViewHolder {
         private TextView ingredientNameTextView;
         private TextView measureTextView;
+        private Button addToCartButton;
 
         public IngredientHolder(@NonNull View itemView) {
             super(itemView);
             ingredientNameTextView = itemView.findViewById(R.id.ingredientNameTextView);
             measureTextView = itemView.findViewById(R.id.measureTextView);
+            addToCartButton = itemView.findViewById(R.id.addToCartButton);
         }
     }
 }

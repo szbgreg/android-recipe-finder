@@ -14,6 +14,9 @@ import java.util.List;
 
 import hu.nje.recipefinder.R;
 import hu.nje.recipefinder.data.local.entity.ShoppingListItemEntity;
+import android.widget.ImageButton;
+
+import hu.nje.recipefinder.data.local.database.AppDatabase;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ShoppingViewHolder> {
 
@@ -45,6 +48,23 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             holder.recipeNameTextView.setVisibility(View.GONE);
         }
 
+        holder.deleteButton.setOnClickListener(v -> {
+            int adapterPosition = holder.getBindingAdapterPosition();
+
+            if (adapterPosition == RecyclerView.NO_POSITION) {
+                return;
+            }
+
+            ShoppingListItemEntity itemToDelete = items.get(adapterPosition);
+
+            AppDatabase.getInstance(v.getContext())
+                    .shoppingListDao()
+                    .deleteById(itemToDelete.id);
+
+            items.remove(adapterPosition);
+            notifyDataSetChanged();
+        });
+
         holder.nameTextView.setText(item.ingredientName);
         holder.measureTextView.setText(item.measure);
         holder.servingsTextView.setText("x" + item.servings);
@@ -60,6 +80,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         TextView measureTextView;
         TextView servingsTextView;
         TextView recipeNameTextView;
+        ImageButton deleteButton;
 
         public ShoppingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +88,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
             measureTextView = itemView.findViewById(R.id.shoppingMeasureTextView);
             servingsTextView = itemView.findViewById(R.id.shoppingServingsTextView);
             recipeNameTextView = itemView.findViewById(R.id.shoppingRecipeNameTextView);
+            deleteButton = itemView.findViewById(R.id.deleteShoppingItemButton);
         }
     }
 }

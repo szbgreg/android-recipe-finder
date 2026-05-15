@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -39,6 +40,21 @@ public class ShoppingListFragment extends Fragment {
                         .getAllItems();
 
         adapter.setItems(items);
+
+        Button clearButton = view.findViewById(R.id.clearShoppingListButton);
+
+        clearButton.setOnClickListener(v -> {
+
+            AppDatabase.getInstance(requireContext())
+                    .shoppingListDao()
+                    .clearAll();
+
+            adapter.setItems(
+                    AppDatabase.getInstance(requireContext())
+                            .shoppingListDao()
+                            .getAllItems()
+            );
+        });
 
         return view;
     }

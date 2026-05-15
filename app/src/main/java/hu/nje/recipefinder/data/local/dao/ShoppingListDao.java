@@ -20,4 +20,7 @@ public interface ShoppingListDao {
 
     @Query("DELETE FROM shopping_list")
     void clearAll();
+
+    @Query("DELETE FROM shopping_list WHERE id = :id")
+    void deleteById(int id);
 }
