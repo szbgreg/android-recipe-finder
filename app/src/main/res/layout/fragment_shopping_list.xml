@@ -23,11 +23,12 @@
         android:id="@+id/clearShoppingListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Clear all"
         android:textAllCaps="false"
-        app:layout_constraintTop_toTopOf="@id/shoppingListTitleTextView"
         app:layout_constraintBottom_toBottomOf="@id/shoppingListTitleTextView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/shoppingListTitleTextView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingListRecyclerView"
