@@ -3,14 +3,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="background">#F5F7FA</color>
+    <color name="background">#EEF6EE</color>
     <color name="surface">#FFFFFF</color>
-    <color name="surface_soft">#EFE7FF</color>
+    <color name="surface_soft">#E9F4E0</color>
 
-    <color name="primary">#6F4DBF</color>
-    <color name="primary_dark">#4E2A9A</color>
-    <color name="primary_light">#E9EEF6</color>
+    <color name="primary">#26AB2D</color>
+    <color name="primary_dark">#207824</color>
+    <color name="primary_light">#3DCE44</color>
 
-    <color name="text_primary">#2D2A32</color>
+    <color name="text_primary">#2D2A32</color>26AB2D
     <color name="text_secondary">#6F6A78</color>
 </resources>
